@@ -59,15 +59,44 @@ def additional_code(number, carry = 1):
 #сложение в прямых кодах
 def addition_direct_code(message):
     f_bool = False
-    if str(message.text).count('-') in [0, 2]:
+    try:
+        if str(message.text).count('-') in [0, 2]:
+            msg = (str(message.text)).split(" ")
+            if '.' in msg[0]:
+                f_bool = True
+            if f_bool == True:
+                msga = float(msg[0])
+                msgb = float(msg[1])
+                a = "-" + fbin(ffz(msga)) if "-" in msg[0] else fbin(ffz(msga))
+                b = "-" + fbin(ffz(msgb)) if "-" in msg[0] else fbin(ffz(msgb))
+                fsum = ffz(msga + msgb)
+            else:
+                msga = int(msg[0])
+                msgb = int(msg[1])
+                a = "-" + bin(msga)[3:] if "-" in msg[0] else bin(msga)[2:]
+                b = "-" + bin(msgb)[3:] if "-" in msg[1] else bin(msgb)[2:]
+                fsum = msga + msgb
+            bot.send_message(message.chat.id, f'A = {msg[0]}(10) = {a}(2)\n'
+                                              f'B = {msg[1]}(10) = {b}(2)\n'
+                                              f'Aпр = {direct_code(msga)}\n'
+                                              f'Bпр = {direct_code(msgb)}\n'
+                                              f'*Cпр = {direct_code(fsum)}*\n'
+                                              f'C = {msga + msgb}', parse_mode='Markdown')
+        else:
+            bot.send_message(message.chat.id, '🫢 Упс, читай внимательнее тему, числа должны быть одного знака!')
+    except:
+        bot.send_message(message.chat.id, '🫢 Что-то не так...')
+
+#сложение в обратных кодах
+def addition_reverse_code(message):
+    f_bool = False
+    try:
         msg = (str(message.text)).split(" ")
-        if '.' in msg[0]:
-            f_bool = True
-        if f_bool == True:
+        if '.' in msg[0] or '.' in msg[1]:
             msga = float(msg[0])
             msgb = float(msg[1])
             a = "-" + fbin(ffz(msga)) if "-" in msg[0] else fbin(ffz(msga))
-            b = "-" + fbin(ffz(msgb)) if "-" in msg[0] else fbin(ffz(msgb))
+            b = "-" + fbin(ffz(msgb)) if "-" in msg[1] else fbin(ffz(msgb))
             fsum = ffz(msga + msgb)
         else:
             msga = int(msg[0])
@@ -77,61 +106,41 @@ def addition_direct_code(message):
             fsum = msga + msgb
         bot.send_message(message.chat.id, f'A = {msg[0]}(10) = {a}(2)\n'
                                           f'B = {msg[1]}(10) = {b}(2)\n'
-                                          f'Aпр = {direct_code(msga)}\n'
-                                          f'Bпр = {direct_code(msgb)}\n'
-                                          f'*Cпр = {direct_code(fsum)}*\n'
-                                          f'C = {msga + msgb}', parse_mode='Markdown')
-    else:
-        bot.send_message(message.chat.id, '🫢 Упс, читай внимательнее тему, числа должны быть одного знака!')
-
-#сложение в обратных кодах
-def addition_reverse_code(message):
-    f_bool = False
-    msg = (str(message.text)).split(" ")
-    if '.' in msg[0] or '.' in msg[1]:
-        msga = float(msg[0])
-        msgb = float(msg[1])
-        a = "-" + fbin(ffz(msga)) if "-" in msg[0] else fbin(ffz(msga))
-        b = "-" + fbin(ffz(msgb)) if "-" in msg[1] else fbin(ffz(msgb))
-        fsum = ffz(msga + msgb)
-    else:
-        msga = int(msg[0])
-        msgb = int(msg[1])
-        a = "-" + bin(msga)[3:] if "-" in msg[0] else bin(msga)[2:]
-        b = "-" + bin(msgb)[3:] if "-" in msg[1] else bin(msgb)[2:]
-        fsum = msga + msgb
-    bot.send_message(message.chat.id, f'A = {msg[0]}(10) = {a}(2)\n'
-                                      f'B = {msg[1]}(10) = {b}(2)\n'
-                                      f'Aобр = {reverse_code(msga)}\n'
-                                          f'Bобр = {reverse_code(msgb)}\n'
-                                          f'*Cобр = {reverse_code(fsum)}*\n'
-                                          f'C = {msga + msgb}', parse_mode='Markdown')
+                                          f'Aобр = {reverse_code(msga)}\n'
+                                              f'Bобр = {reverse_code(msgb)}\n'
+                                              f'*Cобр = {reverse_code(fsum)}*\n'
+                                              f'C = {msga + msgb}', parse_mode='Markdown')
+    except:
+        bot.send_message(message.chat.id, '🫢 Что-то не так...')
 
 #сложение в дополнительных кодах
 def addition_add_code(message):
     f_bool = False
-    msg = (str(message.text)).split(" ")
-    if '.' in msg[0] or '.' in msg[1]:
-        msga = float(msg[0])
-        msgb = float(msg[1])
-        a = "-" + fbin(ffz(msga)) if "-" in msg[0] else fbin(ffz(msga))
-        b = "-" + fbin(ffz(msgb)) if "-" in msg[1] else fbin(ffz(msgb))
-        fsum = ffz(msga + msgb)
-    else:
-        msga = int(msg[0])
-        msgb = int(msg[1])
-        a = "-" + bin(msga)[3:] if "-" in msg[0] else bin(msga)[2:]
-        b = "-" + bin(msgb)[3:] if "-" in msg[1] else bin(msgb)[2:]
-        fsum = msga + msgb
-    rca = reverse_code(msga)
-    rcb = reverse_code(msgb)
-    rcf = reverse_code(fsum)
-    bot.send_message(message.chat.id, f'A = {msg[0]}(10) = {a}(2)\n'
-                                          f'B = {msg[1]}(10) = {b}(2)\n'
-                                          f'Aдоп = {rca[:2] + additional_code(rca[2::]) if rca[0] == "1" else direct_code(msga)}\n'
-                                          f'Bдоп = {rcb[:2] + additional_code(rcb[2::]) if rcb[0] == "1" else direct_code(msgb)}\n'
-                                          f'*Cдоп = {rcf[:2] + additional_code(rcf[2::]) if rcf[0] == "1" else direct_code(fsum)}*\n'
-                                          f'C = {msga + msgb}', parse_mode='Markdown')
+    try:
+        msg = (str(message.text)).split(" ")
+        if '.' in msg[0] or '.' in msg[1]:
+            msga = float(msg[0])
+            msgb = float(msg[1])
+            a = "-" + fbin(ffz(msga)) if "-" in msg[0] else fbin(ffz(msga))
+            b = "-" + fbin(ffz(msgb)) if "-" in msg[1] else fbin(ffz(msgb))
+            fsum = ffz(msga + msgb)
+        else:
+            msga = int(msg[0])
+            msgb = int(msg[1])
+            a = "-" + bin(msga)[3:] if "-" in msg[0] else bin(msga)[2:]
+            b = "-" + bin(msgb)[3:] if "-" in msg[1] else bin(msgb)[2:]
+            fsum = msga + msgb
+        rca = reverse_code(msga)
+        rcb = reverse_code(msgb)
+        rcf = reverse_code(fsum)
+        bot.send_message(message.chat.id, f'A = {msg[0]}(10) = {a}(2)\n'
+                                              f'B = {msg[1]}(10) = {b}(2)\n'
+                                              f'Aдоп = {rca[:2] + additional_code(rca[2::]) if rca[0] == "1" else direct_code(msga)}\n'
+                                              f'Bдоп = {rcb[:2] + additional_code(rcb[2::]) if rcb[0] == "1" else direct_code(msgb)}\n'
+                                              f'*Cдоп = {rcf[:2] + additional_code(rcf[2::]) if rcf[0] == "1" else direct_code(fsum)}*\n'
+                                              f'C = {msga + msgb}', parse_mode='Markdown')
+    except:
+        bot.send_message(message.chat.id, '🫢 Что-то не так...')
 
 #старт
 @bot.message_handler(commands=['start'])
@@ -148,19 +157,19 @@ def callback_query(call):
         markup.add(types.InlineKeyboardButton(text=f'Тема.', callback_data=f'Кодирование чисел в ЭВМ. Тема.'),
                    types.InlineKeyboardButton(text=f'Перевод чисел.', callback_data=f'Перевод чисел.'))
         markup.add(types.InlineKeyboardButton(text=f'<--- Назад', callback_data="{\"method\":\"pagination\",\"NumberPage\":" + '1'
-                                                                                + ",\"CountPage\":" + '4' + "}"))
+                                                                                + ",\"CountPage\":" + '3' + "}"))
         bot.edit_message_text(f'Выбери из списка:', reply_markup=markup, chat_id=call.message.chat.id,
                               message_id=call.message.message_id)
     elif 'ФПЧ.' in req:
         markup.add(types.InlineKeyboardButton(text=f'Тема.', callback_data=f'ФПЧ. Тема.'))
         markup.add(types.InlineKeyboardButton(text=f'<--- Назад', callback_data="{\"method\":\"pagination\",\"NumberPage\":" + '1'
-                                                                                + ",\"CountPage\":" + '4' + "}"))
+                                                                                + ",\"CountPage\":" + '3' + "}"))
         bot.edit_message_text(f'Выбери из списка:', reply_markup=markup, chat_id=call.message.chat.id,
                               message_id=call.message.message_id)
     elif 'ППЧ.' in req:
         markup.add(types.InlineKeyboardButton(text=f'Тема.', callback_data=f'ППЧ. Тема.'))
         markup.add(types.InlineKeyboardButton(text=f'<--- Назад', callback_data="{\"method\":\"pagination\",\"NumberPage\":" + '1'
-                                                                                + ",\"CountPage\":" + '4' + "}"))
+                                                                                + ",\"CountPage\":" + '3' + "}"))
         bot.edit_message_text(f'Выбери из списка:', reply_markup=markup, chat_id=call.message.chat.id,
                               message_id=call.message.message_id)
     elif 'СЧВАК.' in req:
@@ -172,7 +181,7 @@ def callback_query(call):
         markup.add(types.InlineKeyboardButton(text=f'Сложение чисел в дополнительных кодах.',
                                               callback_data=f'СЧВАК.ДК.'))
         markup.add(types.InlineKeyboardButton(text=f'<--- Назад', callback_data="{\"method\":\"pagination\",\"NumberPage\":" + '1'
-                                                                                + ",\"CountPage\":" + '4' + "}"))
+                                                                                + ",\"CountPage\":" + '3' + "}"))
         bot.edit_message_text(f'Выбери из списка:', reply_markup=markup, chat_id=call.message.chat.id,
                               message_id=call.message.message_id)
 
@@ -443,7 +452,11 @@ def translate(message):
                                           f'Обратный код: *{reverse_code(number)}*\n'
                                           f'Дополнительный код: *{rc[:2] + additional_code(rc[2::]) if rc[0] == "1" else direct_code(number)}*\n', parse_mode="Markdown")
     except ValueError:
-        bot.send_message(message.chat.id, "😵‍💫 Я пока не понимаю! Попробуйте снова.")
+        if ('Привет' in t or 'привет' in t):
+            bot.send_sticker(message.chat.id,
+                             'CAACAgIAAxkBAAENGj1nMRLBBl2ldSdeGC2FKKIR8accMgACMCIAAtFO-EiyV6rZkUVoMjYE')
+        else:
+            bot.send_message(message.chat.id, "😵‍💫 Я пока не понимаю! Попробуйте снова.")
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
