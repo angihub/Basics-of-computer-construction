@@ -456,7 +456,7 @@ def translate(message):
             bot.send_sticker(message.chat.id,
                              'CAACAgIAAxkBAAENGj1nMRLBBl2ldSdeGC2FKKIR8accMgACMCIAAtFO-EiyV6rZkUVoMjYE')
         else:
-            bot.send_message(message.chat.id, "😵‍💫 Я пока не понимаю! Попробуйте снова.")
+            bot.send_message(message.chat.id, "😵‍💫 Я пока не понимаю! Попробуй снова.")
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
